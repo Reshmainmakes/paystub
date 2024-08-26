@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Employee List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            background-color: #004080;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            margin: 0;
+        }
+
+        a {
+            text-decoration: none;
+            color: #004080;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        table {
+            width: 90%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: white;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #004080;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #e0ebf5; /* Light shade of blue */
+        }
+
+        tr:hover {
+            background-color: #cce0f0; /* Slightly darker shade on hover */
+        }
+
+        .actions a {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Employee List</h1>
+    <a href="{% url 'add_employee' %}">Add New Employee</a>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Position</th>
+            <th>Total Regular Hours</th>
+            <th>Total Overtime Hours</th>
+            <th>Total Regular Pay</th>
+            <th>Total Overtime Pay</th>
+            <th>Total Pay</th>
+            <th>Invoice</th>
+            <th>Actions</th>
+        </tr>
+        {% for employee in employees %}
+        <tr>
+            <td>{{ employee.name }}</td>
+            <td>{{ employee.position }}</td>
+            <td>{{ employee.total_hours }}</td>
+            <td>{{ employee.total_overtime_hours }}</td>
+            <td>{{ employee.total_regular_pay }}</td>
+            <td>{{ employee.total_overtime_pay }}</td>
+            <td>{{ employee.total_pay }}</td>
+            <td class="invoice">
+                <a href="{% url 'create_invoice_excel' employee.id %}">Excel</a> |
+                <a href="{% url 'create_invoice_pdf' employee.id %}">PDF</a>
+            </td>
+            <td class="actions">
+                <a href="{% url 'update_employee' employee.id %}">Update</a> |
+                <a href="{% url 'delete_employee' employee.id %}" onclick="return confirm('Are you sure you want to delete this employee?');">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
